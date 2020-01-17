@@ -160,32 +160,20 @@
   <script>
 
 
-    //$('.card').on('mouseenter', function () {
-    //  $(this).find('.collapse').collapse('show');
+    let thisItem;
+    $('[data-toggle="collapse"]').on('mouseenter', function () {
 
-    //}
+      thisItem = $(this).find('.collapse');
+      thisItem.collapse('show');
 
-   // let thisItem;
-   //$('[data-toggle="collapse"]').on('mouseenter', function() {
-   //  thisItem = $(this).find('.collapse');
+      thisItem.on('mouseleave', function () {
 
-   //  thisItem.collapse('show');
-   //  thisItem.on('mouseout').collapse('hide');
-     
-   //});
-
-
-
+        $(this).collapse('hide');
+      });
+    });
 
   </script>
 }
 
 
 
-@*
-  //let thisId =  $('.card').attr("data-target");
-  //thisDiv = document.getElementById(thisId);
-  //thisDiv.onmouseout = function () {
-  //  $(this).collapse('hide');
-  //};
-*@

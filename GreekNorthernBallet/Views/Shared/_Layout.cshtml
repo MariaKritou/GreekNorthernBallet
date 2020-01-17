@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@ViewData["Title"] - GreekNorthernBallet</title>
+
+
+
+  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/lib/fontawesome-free/css/all.css" asp-append-version="true" />
+
+  <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/19.2.3/css/dx.common.css">
+  <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/19.2.3/css/dx.light.css">
+  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+
+  <script src="~/lib/jquery/dist/jquery.js" asp-append-version="true"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js" asp-append-version="true"></script>
+  <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/19.2.3/js/dx.all.js"></script>
+  <script src="https://unpkg.com/devextreme-aspnet-data@2.5.1/js/dx.aspnet.data.js"></script>
+  <script src="~/js/site.js" asp-append-version="true"></script>
+
+</head>
+<body>
+  <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
+    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">GreekNorthernBallet</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="News" asp-action="Index">News</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Event" asp-action="Index">Events</a></li>
+
+
+
+
+        @*Teacher Actions -- Admin Only*@
+        @if (User.IsInRole("admin"))
+        {
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Actions
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" asp-controller="User" asp-action="FindPlayers">Students</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" asp-controller="UserCard" asp-action="Index">Payments</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" asp-controller="Dance" asp-action="Index">Categories</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" asp-controller="User" asp-action="Create">Create User</a>
+          </div>
+        </li>
+        }
+
+      </ul>
+
+      @*Logging Actions*@
+      <ul class="navbar-nav ml-auto">
+        @if (User.Identity.IsAuthenticated)
+        {
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-user-circle"></i> @User.Identity.Name
+            </a>
+            <div class="dropdown-menu dropdown-menu-right text-center" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" asp-controller="Profile" asp-action="Index">Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" asp-controller="User" asp-action="Logout">Logout</a>
+            </div>
+          </li>
+        }
+        else
+        {
+          <li class="nav-item"><a class="nav-link float-right" asp-controller="User" asp-action="Index"> <i class="far fa-hand-point-right"></i> Login</a></li>
+        }
+      </ul>
+    </div>
+  </nav>
+ 
+
+
+
+  <div class="container body-content">
+    @RenderBody()
+  </div>
+
+
+  @*αυτο το container τοβαζω σε οποιο μερος τηςς σελιδας θελω και παιρνει
+    ολο το μηκος της αντι για το πανω που εχει margins//page: payments στο table*@
+  <div class="container-fluid">
+    @RenderSection("containerFluid", required: false)
+  </div>
+
+  <div class="mycontainer">
+    @RenderSection("myContainer", required: false)
+  </div>
+
+
+  @*<footer>
+      <text>&copy; 2019 - GreekNorthernBallet</text>
+      <hr />
+    </footer>*@
+
+  @RenderSection("Scripts", required: false)
+</body>
+</html>

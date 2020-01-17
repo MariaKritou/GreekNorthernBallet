@@ -1,0 +1,95 @@
+﻿@model List<DanceCategory>
+
+
+<p>
+  <a asp-controller="Dance" asp-action="CreateDance" class="btn btn-outline-primary">Add Dance Category</a>
+</p>
+
+<table class="table table-hover">
+  <thead class="bg-dark">
+    <tr class="text-light">
+      <th scope="col">Title</th>
+      <th scope="col">Cost</th>
+      <th scope="col">Buttons</th>
+    </tr>
+  </thead>
+  @foreach (var dance in Model)
+  {
+    string modalId = "modal" + dance.danceId;
+    string headerId = "modalLabel" + dance.danceId;
+    string modalId2 = "modal2" + dance.danceId;
+    string headerId2 = "modalLabel2" + dance.danceId;
+
+    <tbody>
+      <tr>
+        <td>@dance.danceName</td>
+        <td>@dance.cost</td>
+        <td>      
+            <button type="submit" class="btn btn-outline-danger" data-toggle="modal" data-target="#@modalId"><i class="far fa-trash-alt"></i></button>
+            <button type="submit" class="btn btn-outline-success" data-toggle="modal" data-target="#@modalId2"><i class="far fa-edit"></i></button>        
+        </td>
+      </tr>
+    </tbody>
+
+    //Delete Popup
+    <div class="modal fade" id="@modalId" tabindex="-1" role="dialog" aria-labelledby="@headerId" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header" id="@headerId">
+            <h5 class="modal-title">Delete Category</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete "@dance.danceName" event?</p>
+          </div>
+          <div class="modal-footer">
+            <form asp-controller="Dance" asp-action="PostDelete" method="post">
+              <input type="hidden" name="danceId" value="@dance.danceId" />
+              <button type="submit" class="btn text-white border-danger bg-danger">Delete</button>
+            </form>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    //Edit Popup
+    <form asp-controller="Dance" asp-action="PostEdit" method="post">
+      <div class="modal fade" id="@modalId2" tabindex="-1" role="dialog" aria-labelledby="@headerId2" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header" id="@headerId2">
+              <h5 class="modal-title">Edit</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <input type="hidden" name="danceId" class="form-control" value="@dance.danceId" />
+              </div>
+              <div class="form-group">
+                <label asp-for="@dance.danceName"></label>
+                <input type="text" name="danceName" class="form-control" value="@dance.danceName" />
+              </div>
+              <div class="form-group">
+                <label asp-for="@dance.cost"></label>
+                <input type="number" name="cost" class="form-control" value="@dance.cost" />
+              </div>         
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn text-white border-success bg-success">Save</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  }
+</table>
+
+

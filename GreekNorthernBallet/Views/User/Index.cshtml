@@ -1,0 +1,28 @@
+﻿@model LoginModel
+
+
+<div class="body-login"> </div>
+<div class="grad"></div>
+<div class="header">
+  <div>GNB<span>Login</span></div>
+</div>
+<br>
+<div class="login">
+  <form asp-controller="User" asp-action="Login">
+    <input type="text" class="form-control" asp-for="@Model.username" placeholder="@Html.DisplayNameFor(p => p.username)" /><br>
+    <input type="password" class="form-control" asp-for="@Model.password" placeholder="@Html.DisplayNameFor(p => p.password)" /><br>
+    <input type="submit" value="Login"/>
+  </form>
+</div>
+
+<style type="text/css">
+  footer {
+
+  /*if you want the footer to appear uncomment this */
+  /*bottom: -550px;
+  position: relative;
+  width: 100%;*/
+
+  display:none;
+  }
+</style>

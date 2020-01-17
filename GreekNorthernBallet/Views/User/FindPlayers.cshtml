@@ -1,0 +1,223 @@
+﻿@model UserSearchContextMenuVM
+
+
+<div style="padding-left : 30%; padding-top:5%;width:680px">
+  <form asp-controller="User" asp-action="FindPlayers">
+    <div class="input-group">
+      <input class="form-control" type="text" placeholder="Search" name="name" style="border:2px solid palevioletred">
+      <div class="input-group-append" style="background-color:palevioletred">
+        <button class="btn text-light" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<div class="dx-viewport">
+  <div class="demo-container">
+    <div class="col-md-12" style="padding-top:5%;padding-left:5%">
+      <table class="table table-bordered table-hover text-center">
+        <thead class="bg-dark">
+          <tr class="text-light" style="font-size:large">
+            <th style="width:6rem"></th>
+            <th>@Html.DisplayNameFor(p => p.users[0].name)</th>
+            <th>@Html.DisplayNameFor(p => p.users[0].surname)</th>
+            <th>@Html.DisplayNameFor(p => p.users[0].mobile)</th>
+          </tr>
+        </thead>
+
+        @for (int i = 0; i < Model.users.Count; i++)
+        {
+
+          var photoPath = "~/images/" + (@Model.users[i].imagePath ?? "ballet.jpg");
+
+          <tbody style="font-family:'Lucida Sans'; font-size:large">
+            <tr>
+              <td id="@Model.users[i].userId"><img class="image-profile" src="@photoPath" style="width:70px; height:60px; border:3px solid purple ;border-radius: 50%;object-fit: cover;" asp-append-version="true" /></td>
+              <td style="padding-top:2rem">@Model.users[i].name</td>
+              <td style="padding-top:2rem">@Model.users[i].surname</td>
+              <td style="padding-top:2rem">@Model.users[i].mobile</td>
+            </tr>
+          </tbody>
+
+
+
+        }
+      </table>
+    </div>
+
+    <div id="context-menu"></div>
+
+  </div>
+</div>
+
+
+@{
+  var prevDisabled = !Model.users.HasPreviousPage ? "disabled" : "";
+  var nextDisabled = !Model.users.HasNextPage ? "disabled" : "";
+}
+
+
+<nav style="padding-top:1rem;">
+  <ul class="pagination">
+    <li style="padding-right:10px" class="page-item @prevDisabled"><a style="background-color:transparent;color:mediumpurple" class="page-link" asp-action="FindPlayers" asp-route-pageNumber="@(Model.users.PageIndex - 1)">Previous</a></li>
+    <li class="page-item @nextDisabled"><a style="background-color:transparent;color:mediumpurple" class="page-link" asp-action="FindPlayers" asp-route-pageNumber="@(Model.users.PageIndex + 1)">Next</a></li>
+  </ul>
+</nav>
+
+
+
+
+@*Delete Modal --------------------------------*@
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="header" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header" id="header">
+        <h5 class="modal-title">Delete User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this user?</p>
+      </div>
+      <div class="modal-footer">
+        <form asp-controller="User" asp-action="PostDelete" method="post">
+          <input type="hidden" name="id" value="" />
+          <button type="submit" class="btn text-white border-danger bg-danger">Delete</button>
+        </form>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@*Add Payment Modal // partial--------------------------------*@
+@foreach (var user in Model.users)
+{
+
+  var partialModel = new AddSubscriptionPartialVM
+  {
+    users = user,
+    categories = Model.categories
+  };
+
+  <partial name="Partials/_AddSubscriptionPartial" model="partialModel" />
+
+
+
+  @*var modal = "this" + user.userId;
+
+    <form asp-controller="User" asp-action="AddSubscription" method="post">
+      <div class="modal fade" id="@modal" tabindex="-1" role="dialog" aria-labelledby="header2" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header" id="header2">
+              <h5 class="modal-title">Edit</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <input type="hidden" name="userId" class="class-id" value="@user.userId" />
+              </div>
+
+              <div class="form-group">
+                <select id="category"  name="categoryId" class="form-control">
+                  @foreach (var category in Model.categories)
+
+                  {
+                    <option value="@category.danceId">@category.danceName</option>
+                  }
+
+                </select>
+              </div>
+
+              <div class="form-group">
+                <input type="text" name="payment" class="form-control"  />
+              </div>
+
+              <div class="form-group">
+                <label >Comments</label>
+                <input type="text" name="comments" class="form-control" />
+              </div>
+
+              <div class="form-group">
+                <div class="form-check">
+                  <input class="form-check-input" name="checkBoxPaid" type="checkbox" id="checkBoxPaid">
+                  <input type="hidden" name="checkBoxPaid" value="" />
+
+                  <label class="form-check-label" for="checkBoxPaid">
+                    Paid
+                  </label>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" class="btn text-white border-success bg-success">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+    </form>*@
+
+}
+
+
+
+
+@section Scripts{
+
+
+  <script>
+
+    let myId;
+
+    $(function () {
+      $('table').on('contextmenu', 'td', function (e) {
+        e.preventDefault(); //Prevent defaults
+        myId = this.id;
+
+      });
+    });
+
+    $(function () {
+      $("#context-menu").dxContextMenu({
+        dataSource: contextMenuItems,
+        width: 200,
+        target: '.image-profile',
+        onItemClick: function (e) {
+          if (e.itemData.text == 'Add Payment') {
+
+            $('#this' + myId).modal('show');
+
+            $('input[type="checkbox"]').on('change', function () {
+
+              $('input[name="checkBoxPaid"]').val('true');
+            });
+          }
+
+          if (e.itemData.text == 'Delete User') {
+
+            $('#modal').modal('show');
+            $('.modal-footer input').val(myId);
+
+          }
+        }
+      });
+
+    });
+
+
+    var contextMenuItems = [
+      { text: 'Add Payment' },
+      { text: 'Delete User' }];
+
+  </script>
+
+}

@@ -1,0 +1,28 @@
+﻿@model UserChangeImage
+
+<h2>Change Profile Picture</h2>
+
+<form enctype="multipart/form-data" asp-controller="Profile" asp-action="ChangePhoto" method="post">
+
+  <div class="form-group">
+    <label>Choose an image from your device</label>
+    <div class="custom-file">
+      <input asp-for="uploadImage" class="form-control custom-file-input">
+      <label class="custom-file-label">Choose File..</label>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary" runat="server">Submit</button>
+
+  @section Scripts{
+    <script>
+      $(document).ready(function () {
+        $('.custom-file-input').on("change", function () {
+          var fileName = $(this).val().split("\\").pop();
+          $(this).next('.custom-file-label').html(fileName);
+        });
+      });
+    </script>
+  }
+
+</form>

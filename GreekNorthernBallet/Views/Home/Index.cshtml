@@ -1,0 +1,57 @@
+﻿
+<div class="body-home"></div>
+
+<div class="card-deck" style="padding-top:7%">
+
+  <div class="card slide-card-left" style="border: 3px solid grey; background-color:rgba(255,255,255,0.2)">
+    <a class="nav-link" asp-controller="Home" asp-action="About"><img src="~/images/background8.jpeg" class="card-img-top" style="border: 2px solid grey"></a>
+    <div class="card-body" style="text-align:center">
+      <h5 class="card-title" style="color: rgb(188, 140, 237); font-family: 'Lucida Handwriting'">About</h5>
+      <p class="card-text" style="color:rgb(14, 14, 14)">Information about the school and its teachers</p>
+    </div>
+  </div>
+
+  <div class="card fade-card-in" style="border:3px solid grey; background-color:rgba(255,255,255,0.2)">
+    <a class="nav-link" asp-controller="Scheduler" asp-action="Index"><img src="~/images/schedule1.jpg" class="card-img-top" style="border: 2px solid grey"></a>
+    <div class="card-body" style="text-align:center">
+      <h5 class="card-title" style="color: rgb(188, 140, 237); font-family: 'Lucida Handwriting'">Program</h5>
+      <p class="card-text" style="color:rgb(14, 14, 14)">The weekly program of the school and event dates</p>
+    </div>
+  </div>
+
+  <div class="card slide-card-right" style="border:3px solid grey; background-color:rgba(255,255,255,0.2)">
+    <a class="nav-link" asp-controller="Home" asp-action="Contact"><img src="~/images/contact.jpg" class="card-img-top" style="border: 2px solid grey"></a>
+    <div class="card-body" style="text-align: center">
+      <h5 class="card-title" style="color: rgb(188, 140, 237); font-family:'Lucida Handwriting'">Contact</h5>
+      <p class="card-text" style="color:rgb(14, 14, 14)">Contact information and location of school</p>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+@*<div id="button">
+
+</div>*@
+
+@*@section Scripts
+    {
+<script>
+  $(function () {
+
+    $("#button").dxButton({
+      stylingMode: "contained",
+      text: "Contained",
+      type: "normal",
+      width: 120,
+      onClick: function () {
+        DevExpress.ui.notify("The Contained button was clicked");
+      }
+    });
+  });
+</script>
+  }*@

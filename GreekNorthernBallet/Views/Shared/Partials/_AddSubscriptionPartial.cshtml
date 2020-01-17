@@ -1,0 +1,62 @@
+﻿@model AddSubscriptionPartialVM
+
+
+@{var modal = "this" + Model.users.userId;}
+
+  <form asp-controller="User" asp-action="AddSubscription" method="post">
+    <div class="modal fade" id="@modal" tabindex="-1" role="dialog" aria-labelledby="header2" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header" id="header2">
+            <h5 class="modal-title">Edit</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input type="hidden" name="userId" class="class-id" value="@Model.users.userId" />
+            </div>
+
+            <div class="form-group">
+              <select id="category"  name="categoryId" class="form-control">
+                @foreach (var category in Model.categories)
+
+                {
+                  <option value="@category.danceId">@category.danceName</option>
+                }
+
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Payment</label>
+              <input type="text" name="payment" class="form-control"/>
+            </div>
+
+            <div class="form-group">
+              <label >Comments</label>
+              <input type="text" name="comments" class="form-control" />
+            </div>
+
+            <div class="form-group">
+              <div class="form-check">
+                <input class="form-check-input" name="checkBoxPaid" type="checkbox" id="checkBoxPaid">
+                <input type="hidden" name="checkBoxPaid" value="" />
+
+                <label class="form-check-label" for="checkBoxPaid">
+                  Paid
+                </label>
+                <p style="font-size:smaller;font-style:italic">Check if student pays only one lesson costs , otherwise leave it unchecked and enter the payment in the textbox above</p>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="submit" class="btn text-white border-success bg-success">Save</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+  </form>

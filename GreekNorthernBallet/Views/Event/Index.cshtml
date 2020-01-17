@@ -1,0 +1,191 @@
+﻿@model List<Events>
+
+<div class="body-events"></div>
+
+@if (User.IsInRole("admin"))
+{
+  <p>
+    <a asp-controller="Event" asp-action="Create" class="btn" style="background-color:transparent; color:rebeccapurple; border-color:rebeccapurple; margin:1.5% ">Add Event</a>
+  </p>
+}
+
+
+
+@{
+  if (ViewData["message"] != null)
+  {
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+      <strong>@ViewData["message"]</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  }
+
+}
+<br />
+
+
+<div class="card-deck" style="margin-top:-60px">
+
+  @for (int i = 0; i < Model.Count; i++)
+  {
+
+    string modalId = "exampleModal" + i;
+    string headerId = "exampleModalLabel" + i;
+    string modalId2 = "modal" + i;
+    string headerId2 = "modalLabel" + i;
+
+
+    var photoPath = "~/images/" + (Model[i].imagePath ?? "ballet.jpg");
+
+    <div class="col-md-6 mt-5">
+      <div class="card" data-toggle="collapse" data-target="#@Model[i].eventId" style="border-color:rgb(197, 189, 225)">
+        <div class="row no-gutters">
+          <img src="@photoPath" class="card-img" style="height:300px" asp-append-version="true">
+          <div class="col-md-12">
+            <div class="card-body" style="text-align:center; font-size:large">
+              <h5 class="card-title" style="color:rebeccapurple; font-family:'Lucida Handwriting'; font-size:150%">@Model[i].title</h5>
+              <p class="card-text" style=" font-size:large; font-style:italic">@Model[i].description</p>
+              <div id="@Model[i].eventId" class="collapse">
+                <p class="card-text">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Cost: @Model[i].cost $</li>
+                    <li class="list-group-item">Date Uploaded: @Model[i].date</li>
+                  </ul>
+                </p>
+                <p class="card-text">Number of Positions: @Model[i].numOfParticipants</p>
+                @if (!User.IsInRole("admin"))
+                {
+                  <form asp-controller="Event" asp-action="Registration" method="post">
+                    <input type="hidden" name="eventId" value="@Model[i].eventId" />
+                    <button type="submit" class="btn" style="background-color:rgb(86, 65, 157); color:whitesmoke">Register</button>
+                  </form>
+                }
+                @if (User.IsInRole("admin"))
+                {
+                  <div class="btn-group">
+                    <button type="submit" class="list-group-item list-group-item-action" style="width:10px;border:none" data-toggle="modal" data-target="#@modalId"><i class="far fa-trash-alt"></i></button>
+                    <button type="submit" class="list-group-item list-group-item-action" style="width:10px;border:none" data-toggle="modal" data-target="#@modalId2"><i class="far fa-edit"></i></button>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    //Delete Popup
+    <div class="modal fade" id="@modalId" tabindex="-1" role="dialog" aria-labelledby="@headerId" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header" id="@headerId">
+            <h5 class="modal-title">Delete :O</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete "@Model[i].title" event?</p>
+          </div>
+          <div class="modal-footer">
+            <form asp-controller="Event" asp-action="PostDelete" method="post">
+              <input type="hidden" name="eventId" value="@Model[i].eventId" />
+              <button type="submit" class="btn text-white border-danger bg-danger">Delete</button>
+            </form>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    //Edit Popup
+    <form asp-controller="Event" asp-action="PostEdit" method="post">
+      <div class="modal fade" id="@modalId2" tabindex="-1" role="dialog" aria-labelledby="@headerId2" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header" id="@headerId2">
+              <h5 class="modal-title">Edit</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <input type="hidden" name="eventId" class="form-control" value="@Model[i].eventId" />
+              </div>
+              <div class="form-group">
+                <label asp-for="@Model[i].title"></label>
+                <input type="text" name="title" class="form-control" value="@Model[i].title" />
+              </div>
+              <div class="form-group">
+                <label asp-for="@Model[i].description"></label>
+                <input type="text" name="description" class="form-control" value="@Model[i].description" />
+              </div>
+              <div class="form-group">
+                <label asp-for="@Model[i].cost"></label>
+                <input type="number" name="cost" class="form-control" value="@Model[i].cost" />
+              </div>
+              <div class="form-group">
+                <label asp-for="@Model[i].date"></label>
+                <input type="datetime" name="date" class="form-control" value="@Model[i].date" />
+              </div>
+              <div class="form-group">
+                <label asp-for="@Model[i].numOfParticipants"></label>
+                <input type="number" name="numOfParticipants" class="form-control" value="@Model[i].numOfParticipants" />
+              </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn text-white border-success bg-success">Save</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+
+  }
+
+</div>
+
+
+@section Scripts{
+
+  <script>
+
+
+    //$('.card').on('mouseenter', function () {
+    //  $(this).find('.collapse').collapse('show');
+
+    //}
+
+   // let thisItem;
+   //$('[data-toggle="collapse"]').on('mouseenter', function() {
+   //  thisItem = $(this).find('.collapse');
+
+   //  thisItem.collapse('show');
+   //  thisItem.on('mouseout').collapse('hide');
+     
+   //});
+
+
+
+
+  </script>
+}
+
+
+
+@*
+  //let thisId =  $('.card').attr("data-target");
+  //thisDiv = document.getElementById(thisId);
+  //thisDiv.onmouseout = function () {
+  //  $(this).collapse('hide');
+  //};
+*@

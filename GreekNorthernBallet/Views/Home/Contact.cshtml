@@ -1,0 +1,97 @@
+﻿
+<h1 style="color:rebeccapurple; font-family:'Lucida Handwriting'; text-align:center">Contact Information</h1>
+
+<div class="accordion" id="accordionExample">
+<div class="card">
+  <div class="card-header" id="headingOne">
+    <h2 class="mb-0">
+      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="color:rebeccapurple; font-family:'Lucida Handwriting'">
+        GNB Euosmos
+      </button>
+    </h2>
+  </div>
+
+  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+    <div class="card-body">
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header" id="headingTwo">
+    <h2 class="mb-0">
+      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="color:rebeccapurple; font-family:'Lucida Handwriting'">
+        GNB Center
+      </button>
+    </h2>
+  </div>
+  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+    <div class="card-body">
+      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+    </div>
+  </div>
+</div>
+</div>
+<br />
+<br />
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>DevExtreme Demo</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write(decodeURIComponent('%3Cscript src="js/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="https://cdn3.devexpress.com/jslib/19.2.3/js/dx.all.js"></script>
+  <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+  <script src="index.js"></script>
+</head>
+<body class="dx-viewport">
+  <div class="demo-container">
+    <div id="map"></div>
+    <div class="options">
+      <div class="caption">Options</div>
+      <div class="option">
+        <div id="use-custom-markers"></div>
+      </div>
+      <div class="option">
+        <div id="show-tooltips"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+
+@section Scripts
+  {
+  <script>
+    $(function () {
+      var markerUrl = "https://js.devexpress.com/Demos/RealtorApp/images/map-marker.png",
+        markersData = [{
+          location: [40.638918, 22.940132],
+          tooltip: {
+            text: "GNB Center"
+          }
+        }, {
+          location: "40.673575, 22.905409",
+          tooltip: {
+            text: "GNB Euosmos"
+          }
+        }
+        ];
+
+      $("#map").dxMap({
+        provider: "bing",
+        zoom: 11,
+        height: 440,
+        width: "100%",
+        controls: true,
+        markerIconSrc: markerUrl,
+        markers: markersData
+      }).dxMap("instance")
+
+    });
+  </script>
+}

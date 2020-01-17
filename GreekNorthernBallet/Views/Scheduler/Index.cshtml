@@ -1,0 +1,35 @@
+﻿
+<div id="scheduler"></div>
+ 
+
+@section Scripts
+    {
+  <script>
+    $(function () {
+      $("#scheduler").dxScheduler({
+        dataSource:  DevExpress.data.AspNet.createStore({
+          key: "ScheduleId",
+          loadUrl: "@Url.Action("GetSchedulers", "Scheduler")",
+          insertUrl: "@Url.Action("PostCreate", "Scheduler")",
+          deleteUrl: "@Url.Action("PostDelete", "Scheduler")",
+          updateUrl: "@Url.Action("PostEdit", "Scheduler")",
+          onBeforeSend: function(method, ajaxOptions) {
+                ajaxOptions.xhrFields = { withCredentials: true };
+            }
+        }),
+        remoteFiltering: true,
+        views: ["day", "week", "month"],
+        currentView: "month",
+        currentDate: new Date(2017, 4, 23),
+        startDayHour: 9,
+        endDayHour: 19,
+        height: 600,
+        textExpr: "Text",
+        startDateExpr: "StartDate",
+        endDateExpr: "EndDate",
+        allDayExpr: "AllDay",
+        recurrenceRuleExpr: "RecurrenceRule"  //oti theleis na fainetai to prostheteis kai edw
+      }).dxScheduler("instance");
+    });
+  </script>
+}

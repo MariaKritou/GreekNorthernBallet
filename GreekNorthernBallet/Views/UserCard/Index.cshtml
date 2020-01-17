@@ -1,0 +1,125 @@
+﻿@model List<SearchPayments>
+
+
+
+<div style="padding-bottom:4%; padding-top:2%; padding-left:30%; width:800px">
+  <form asp-controller="UserCard" asp-action="Index">
+    <div class="input-group">
+      <input class="form-control" id="demo" type="text" placeholder="Name" name="name" style="border:2px solid palevioletred">
+      <input class="form-control" id="demo2" type="date" placeholder="Date" name="date" style="border:2px solid palevioletred">
+      <div class="input-group-append" style="background-color:palevioletred">
+        <button class="btn text-light" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+@section containerFluid{
+
+  <table class="table table-bordered table-hover text-center">
+    <thead class="thead-dark">
+      <tr class="withoutTransfer">
+        <th scope="col"></th>
+        <th scope="col">@Html.DisplayNameFor(p => p[0].name)</th>
+        <th scope="col">@Html.DisplayNameFor(p => p[0].surname)</th>
+        <th scope="col">@Html.DisplayNameFor(p => p[0].danceName)</th>
+        <th scope="col">@Html.DisplayNameFor(p => p[0].payment)</th>
+        <th scope="col">@Html.DisplayNameFor(p => p[0].dateOfPayment)</th>
+        <th scope="col">@Html.DisplayNameFor(p => p[0].mobile)</th>
+        <th scope="col">@Html.DisplayNameFor(p => p[0].comments)</th>
+      </tr>
+    </thead>
+
+    <tbody id="paymentsBody" class="text-center" style="font-family:'Lucida Sans'; font-size:large">
+    </tbody>
+
+  </table>
+
+
+
+  <nav style="padding-top:1rem;">
+    <ul class="pagination">
+      <li id="prevBtn" style="padding-right:10px" class="page-item"><a id="pB" style="background-color:transparent;color:mediumpurple" href="#" class="page-link">Previous</a></li>
+      <li id="nextBtn" class="page-item "><a id="nB" style="background-color:transparent;color:mediumpurple" href="#" class="page-link">Next</a></li>
+    </ul>
+  </nav>
+
+}
+
+
+@section Scripts{
+
+  <script>
+
+    $(document).ready(function () {
+
+
+      let url = '@Url.Action("GetAllPayments", "PaymentApi")';
+      let bodyPayment = $('#paymentsBody');
+      let curPage = 1;
+
+      let getData = function (pageNumber) {
+
+        let name = $('#demo').val();
+        let date = $('#demo2').val();
+
+        $.getJSON(url, { name: name, date: date, pageNumber: pageNumber }, function (result) {
+        bodyPayment.empty();
+        for (let item of result.data) {
+
+          let photoPath = "/images/" + (item.imagePath ? item.imagePath : "ballet.jpg");
+          let photo = $('<img>')
+            .attr('src', photoPath)
+            .addClass('image-profile-user');
+
+          let row = $('<tr>');
+
+          row.append($('<td>').append(photo))
+             .append($('<td>').text(item.name))
+             .append($('<td>').text(item.surname))
+             .append($('<td>').text(item.danceName))
+             .append($('<td>').text(item.payment))
+             .append($('<td>').text(item.dateOfPayment.substring(0,10))) //in order to get only date from datetime i use substr
+             .append($('<td>').text(item.mobile))
+             .append($('<td>').text(item.comments));
+
+          bodyPayment.append(row);
+
+          }
+          $('#prevBtn').toggleClass("disabled", !result.hasPreviousPage);
+          $('#nextBtn').toggleClass("disabled", !result.hasNextPage);
+ 
+     
+      });
+      };
+
+      getData(curPage);
+
+      $('#prevBtn').click(function (e) {
+        if (!$(this).hasClass("disabled")) {
+          curPage--;
+          getData(curPage);
+        }       
+      });
+
+       $('#nextBtn').click(function (e) {
+        if (!$(this).hasClass("disabled")) {
+          curPage++;
+          getData(curPage);
+        }  
+      });
+
+
+      $('button').click(function (e) {
+       e.preventDefault();
+       getData(curPage);
+      });
+
+    });
+
+
+  </script>
+
+}

@@ -1,0 +1,17 @@
+﻿@model DanceCategory
+
+
+<form asp-controller="Dance" asp-action="PostCreateDance" method="post">
+  <div class="form-group">
+    <label asp-for="danceName"></label>
+    <input asp-for="danceName" class="form-control">
+    <span asp-validation-for="danceName" class="text-danger"></span>
+  </div>
+  <div class="form-group">
+    <label asp-for="cost"></label>
+    <input asp-for="cost" class="form-control">
+    <span asp-validation-for="cost" class="text-danger"></span>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

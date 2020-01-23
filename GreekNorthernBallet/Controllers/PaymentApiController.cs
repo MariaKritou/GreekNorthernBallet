@@ -18,7 +18,7 @@ namespace GreekNorthernBallet.Controllers
     public JsonResult GetAllPayments(string name, DateTime? date, int? pageNumber)
     {
       List<SearchPayments> search = null;
-      int pageSize = 3;
+      int pageSize = 6;
 
       if (string.IsNullOrEmpty(name) && date != null)
       {

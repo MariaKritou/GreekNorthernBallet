@@ -1,7 +1,7 @@
 ﻿@model UserSearchContextMenuVM
 
 
-<div style="padding-left : 30%; padding-top:5%;width:680px">
+<div style="padding-left : 30%; padding-top:4%;width:680px">
   <form asp-controller="User" asp-action="FindPlayers">
     <div class="input-group">
       <input class="form-control" type="text" placeholder="Search" name="name" style="border:2px solid palevioletred">
@@ -17,7 +17,7 @@
 
 <div class="dx-viewport">
   <div class="demo-container">
-    <div class="col-md-12" style="padding-top:5%;padding-left:5%">
+    <div class="col-md-12" style="padding-top:4%;padding-left:5%">
       <table class="table table-bordered table-hover text-center">
         <thead class="bg-dark">
           <tr class="text-light" style="font-size:large">
@@ -46,6 +46,23 @@
 
         }
       </table>
+
+
+      @{
+        var prevDisabled = !Model.users.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.users.HasNextPage ? "disabled" : "";
+      }
+
+
+      <nav style="padding-top:1rem;">
+        <ul class="pagination">
+          <li style="padding-right:10px" class="page-item @prevDisabled"><a style="background-color:transparent;color:mediumpurple" class="page-link" asp-action="FindPlayers" asp-route-pageNumber="@(Model.users.PageIndex - 1)">Previous</a></li>
+          <li class="page-item @nextDisabled"><a style="background-color:transparent;color:mediumpurple" class="page-link" asp-action="FindPlayers" asp-route-pageNumber="@(Model.users.PageIndex + 1)">Next</a></li>
+        </ul>
+      </nav>
+
+
+
     </div>
 
     <div id="context-menu"></div>
@@ -54,19 +71,6 @@
 </div>
 
 
-@{
-  var prevDisabled = !Model.users.HasPreviousPage ? "disabled" : "";
-  var nextDisabled = !Model.users.HasNextPage ? "disabled" : "";
-}
-
-
-<nav style="padding-top:1rem;">
-  <ul class="pagination">
-    <li style="padding-right:10px" class="page-item @prevDisabled"><a style="background-color:transparent;color:mediumpurple" class="page-link" asp-action="FindPlayers" asp-route-pageNumber="@(Model.users.PageIndex - 1)">Previous</a></li>
-    <li class="page-item @nextDisabled"><a style="background-color:transparent;color:mediumpurple" class="page-link" asp-action="FindPlayers" asp-route-pageNumber="@(Model.users.PageIndex + 1)">Next</a></li>
-  </ul>
-</nav>
-
 
 
 
@@ -74,7 +78,7 @@
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="header" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header" id="header">
+      <div class="modal-header" id="header" style="background-color:rgb(197, 189, 225)">
         <h5 class="modal-title">Delete User</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -86,7 +90,7 @@
       <div class="modal-footer">
         <form asp-controller="User" asp-action="PostDelete" method="post">
           <input type="hidden" name="id" value="" />
-          <button type="submit" class="btn text-white border-danger bg-danger">Delete</button>
+          <button type="submit" class="btn text-white" style="background-color:rgb(248, 30, 64)">Delete</button>
         </form>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>

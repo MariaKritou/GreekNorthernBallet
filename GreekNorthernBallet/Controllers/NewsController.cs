@@ -19,7 +19,7 @@ namespace GreekNorthernBallet.Controllers
 
     public IActionResult Index(int? pageNumber)
     {
-      int pageSize = 3;
+      int pageSize = 6;
       var data = newsDatabaseRepository.getAllNews().OrderBy(x=>x.dateUploaded);
       return View(PaginatedList<News>.Create(data, pageNumber ?? 1, pageSize));
     }

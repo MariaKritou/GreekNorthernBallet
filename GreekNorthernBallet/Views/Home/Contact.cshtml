@@ -1,5 +1,6 @@
-﻿
+﻿<br>
 <h1 style="color:rebeccapurple; font-family:'Lucida Handwriting'; text-align:center">Contact Information</h1>
+<br />
 
 <div class="accordion" id="accordionExample">
 <div class="card">
@@ -13,7 +14,13 @@
 
   <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
     <div class="card-body">
-      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+      <p class="card-text">
+        Open Hours : Mon-Wed from 17:00-22:00
+        Thu-Fri from 14:00-18:00
+       </p>
+      <p class="card-text">
+        Telephone : 123456789 / 987654321
+      </p>
     </div>
   </div>
 </div>
@@ -27,7 +34,13 @@
   </div>
   <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
     <div class="card-body">
-      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+      <p class="card-text">
+        Open Hours : Mon-Wed from 17:00-22:00
+        Thu-Fri from 14:00-18:00
+      </p>
+      <p class="card-text">
+        Telephone : 123456789 / 987654321
+      </p>
     </div>
   </div>
 </div>
@@ -41,9 +54,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>*@
   <script>window.jQuery || document.write(decodeURIComponent('%3Cscript src="js/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="https://cdn3.devexpress.com/jslib/19.2.3/js/dx.all.js"></script>
+  @*<script src="https://cdn3.devexpress.com/jslib/19.2.3/js/dx.all.js"></script>*@
   <link rel="stylesheet" type="text/css" href="~/css/site.css" />
   <script src="index.js"></script>
 </head>
@@ -82,7 +95,8 @@
         }
         ];
 
-      $("#map").dxMap({
+
+         var mapWidget = $("#map").dxMap({
         provider: "bing",
         zoom: 11,
         height: 440,
@@ -90,7 +104,28 @@
         controls: true,
         markerIconSrc: markerUrl,
         markers: markersData
-      }).dxMap("instance")
+    }).dxMap("instance");
+    
+    $("#use-custom-markers").dxCheckBox({
+        value: true,
+        text: "Use custom marker icons",
+        onValueChanged: function(data) {
+            mapWidget.option("markers", markersData);
+            mapWidget.option("markerIconSrc", data.value ? markerUrl : null);
+        }
+    });
+    
+    $("#show-tooltips").dxButton({
+        text: "Show all tooltips",
+        onClick: function() {
+            var newMarkers = $.map(markersData, function(item) {
+                return $.extend(true, {}, item, { tooltip: { isShown: true }} );
+            });
+    
+            mapWidget.option("markers", newMarkers);
+        }
+    });
+
 
     });
   </script>

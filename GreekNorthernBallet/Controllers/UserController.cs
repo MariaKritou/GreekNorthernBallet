@@ -100,7 +100,7 @@ namespace GreekNorthernBallet.Controllers
 
     public IActionResult FindPlayers( int? pageNumber, string name = null)
     {
-      int pageSize = 3;
+      int pageSize = 6;
       var data = string.IsNullOrEmpty(name) ? userDatabaseRepository.getAllUsers() : userDatabaseRepository.getUserByName(name);
       UserSearchContextMenuVM vm = new UserSearchContextMenuVM
       {

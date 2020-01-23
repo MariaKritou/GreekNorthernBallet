@@ -314,6 +314,17 @@ footer {
   z-index: -1; /*το βαζω -1 για να μην κρυβει τπτ , αν το ειχα 0 τα κουμπια θα πηγαιναν πισω απο την εικονα*/
 }
 
+/*Body events------------------------------------*/
+.body-events {
+  /*background: black no-repeat !important;
+
+  background: -moz-linear-gradient(left, transparent 0%,#5379fa 50%,transparent 100%);
+  background: linear-gradient(to left, transparent 0%,rgb(191, 191, 191) 50%,transparent 100%);*/
+  width: 100%;
+  height: 220%;
+  background: linear-gradient(90deg, rgb(23, 156, 57) 5%, rgb(33, 211, 27) 60%) center center no-repeat;
+  fill: black;
+}
 
 
 /*Container----------------------------------------*/
@@ -348,7 +359,7 @@ footer {
 
 @keyframes slideInFromLeft {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(-70%); /*or -100 , used 70 cause otherwise it would create a scrollbar at the bottom for a few secs beacause with 100 it goes off screen*/
   }
 
   100% {
@@ -358,7 +369,7 @@ footer {
 
 @keyframes slideInFromRight {
   0% {
-    transform: translateX(100%);
+    transform: translateX(70%); /*or 100*/
   }
 
   100% {
@@ -412,3 +423,10 @@ footer {
 }
 
 
+.card:hover {
+  border: 3px solid rgb(188, 140, 237) !important;
+}
+
+.dxheader-clr{
+  background-color:lightpink !important;
+}

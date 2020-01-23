@@ -2,126 +2,126 @@
 
 <div class="body-news"></div>
 <br />
-@if (User.IsInRole("admin"))
-{
-  <p style="padding-left:2%">
+
+
+<ul class="list-group list-group-flush" style="width:80%; padding-left:20%">
+  @if (User.IsInRole("admin"))
+  {
+  <li style="padding-bottom:1rem;">
     <a asp-controller="News" asp-action="Create" class="btn btn-outline-secondary" style="color:mediumpurple">Add News</a>
-  </p>
-}
+  </li>
+  }
 
-  <ul class="list-group list-group-flush" style="width:80%; padding-left:20%">
+  @for (int i = 0; i < Model.Count; i++)
 
+  {
+    string modalId = "exampleModal" + i;
+    string headerId = "exampleModalLabel" + i;
+    string modalId2 = "modal" + i;
+    string headerId2 = "modalLabel" + i;
 
-    @for (int i = 0; i < Model.Count; i++)
+    //List of News
+    <li href="#" class="list-group-item list-group-item-action flex-column align-items-start rounded grow" style="background-color: rgba(197, 189, 225,0.5);border:1px solid rgb(197, 189, 225);margin-bottom:5px">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1" style="color:black">@Model[i].title</h5>
+        <small style="color:rgb(197, 189, 225)">
+          @Model[i].dateUploaded.ToString("M/d/yyyy")
+        </small>
+      </div>
+      <p class="mb-1" style="color:rgb(0, 0, 0)">@Model[i].text</p>
 
-    {
-      string modalId = "exampleModal" + i;
-      string headerId = "exampleModalLabel" + i;
-      string modalId2 = "modal" + i;
-      string headerId2 = "modalLabel" + i;
-
-      //List of News
-      <li href="#" class="list-group-item list-group-item-action flex-column align-items-start rounded grow" style="background-color: rgba(197, 189, 225,0.5);border:1px solid rgb(197, 189, 225);margin-bottom:5px">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1" style="color:black">@Model[i].title</h5>
-          <small style="color:rgb(197, 189, 225)">
-            @Model[i].dateUploaded.ToString("M/d/yyyy")
-          </small>
+      <small style="color:black;font-style:italic">@Model[i].subText</small>
+      @if (User.IsInRole("admin"))
+      {
+        <div class="btn-group float-right">
+          <button type="submit" class="list-group-item list-group-item-action" style="width:10px;background-color:inherit;border:none;color:rgb(197, 189, 225)" data-toggle="modal" data-target="#@modalId"><i class="far fa-trash-alt"></i></button>
+          <button type="submit" class="list-group-item list-group-item-action" style="width:10px;background-color:inherit;border:none;color:rgb(197, 189, 225)" data-toggle="modal" data-target="#@modalId2"><i class="far fa-edit"></i></button>
         </div>
-        <p class="mb-1" style="color:rgb(0, 0, 0)">@Model[i].text</p>
+      }
+    </li>
 
-        <small style="color:black;font-style:italic">@Model[i].subText</small>
-        @if (User.IsInRole("admin"))
-        {
-          <div class="btn-group float-right">
-            <button type="submit" class="list-group-item list-group-item-action" style="width:10px;background-color:rgb(197, 189, 225);border:none" data-toggle="modal" data-target="#@modalId"><i class="far fa-trash-alt"></i></button>
-            <button type="submit" class="list-group-item list-group-item-action" style="width:10px;background-color:rgb(197, 189, 225);border:none" data-toggle="modal" data-target="#@modalId2"><i class="far fa-edit"></i></button>
+
+    //Delete Popup
+    <div class="modal fade" id="@modalId" tabindex="-1" role="dialog" aria-labelledby="@headerId" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header" id="@headerId">
+            <h5 class="modal-title">Delete</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-        }
-      </li>
+          <div class="modal-body">
+            <p>Are you sure you want to delete "@Model[i].title" announcement?</p>
+          </div>
+          <div class="modal-footer">
+            <form asp-controller="News" asp-action="PostDelete" method="post">
+              <input type="hidden" name="id" value="@Model[i].id" />
+              <button type="submit" class="btn text-white" style="background-color:rgb(248, 30, 64)">Delete</button>
+            </form>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-
-      //Delete Popup
-      <div class="modal fade" id="@modalId" tabindex="-1" role="dialog" aria-labelledby="@headerId" aria-hidden="true">
+    //Edit Popup
+    <form asp-controller="News" asp-action="PostEdit" method="post">
+      <div class="modal fade" id="@modalId2" tabindex="-1" role="dialog" aria-labelledby="@headerId2" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-            <div class="modal-header" id="@headerId">
-              <h5 class="modal-title">Delete :O</h5>
+            <div class="modal-header" id="@headerId2">
+              <h5 class="modal-title">Edit</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-              <p>Are you sure you want to delete "@Model[i].title" announcement?</p>
+              <div class="form-group">
+                <input type="hidden" name="id" class="form-control" value="@Model[i].id" />
+              </div>
+              <div class="form-group">
+                <label asp-for="@Model[i].title"></label>
+                <input type="text" name="title" class="form-control" value="@Model[i].title" />
+
+              </div>
+              <div class="form-group">
+                <label asp-for="@Model[i].text"></label>
+                <input type="text" name="text" class="form-control" value="@Model[i].text" />
+
+              </div>
+              <div class="form-group">
+                <label asp-for="@Model[i].subText"></label>
+                <input type="text" name="subText" class="form-control" value="@Model[i].subText" />
+
+              </div>
             </div>
             <div class="modal-footer">
-              <form asp-controller="News" asp-action="PostDelete" method="post">
-                <input type="hidden" name="id" value="@Model[i].id" />
-                <button type="submit" class="btn text-white border-danger bg-danger">Delete</button>
-              </form>
+              <button type="submit" class="btn text-white" style="background-color:lightgreen">Save</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
       </div>
-
-      //Edit Popup
-      <form asp-controller="News" asp-action="PostEdit" method="post">
-        <div class="modal fade" id="@modalId2" tabindex="-1" role="dialog" aria-labelledby="@headerId2" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header" id="@headerId2">
-                <h5 class="modal-title">Edit</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="form-group">
-                  <input type="hidden" name="id" class="form-control" value="@Model[i].id" />
-                </div>
-                <div class="form-group">
-                  <label asp-for="@Model[i].title"></label>
-                  <input type="text" name="title" class="form-control" value="@Model[i].title" />
-
-                </div>
-                <div class="form-group">
-                  <label asp-for="@Model[i].text"></label>
-                  <input type="text" name="text" class="form-control" value="@Model[i].text" />
-
-                </div>
-                <div class="form-group">
-                  <label asp-for="@Model[i].subText"></label>
-                  <input type="text" name="subText" class="form-control" value="@Model[i].subText" />
-
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="submit" class="btn text-white border-success bg-success">Save</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    }
+    </form>
+  }
 
 
 
-    @{
-      var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-      var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-    }
+  @{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+  }
 
 
-    <nav style="padding-top:1rem;">
-      <ul class="pagination">
-        <li style="padding-right:10px" class="page-item @prevDisabled"><a style="background-color:transparent;color:mediumpurple" class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a></li>
-        <li class="page-item @nextDisabled"><a style="background-color:transparent;color:mediumpurple" class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a></li>
-      </ul>
-    </nav>
+  <nav style="padding-top:1rem;">
+    <ul class="pagination">
+      <li style="padding-right:10px" class="page-item @prevDisabled"><a style="background-color:transparent;color:mediumpurple" class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a></li>
+      <li class="page-item @nextDisabled"><a style="background-color:transparent;color:mediumpurple" class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a></li>
+    </ul>
+  </nav>
 
-  </ul>
+</ul>
 
 
 

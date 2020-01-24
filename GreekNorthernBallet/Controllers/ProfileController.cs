@@ -18,7 +18,7 @@ namespace GreekNorthernBallet.Controllers
     private readonly EventDatabaseRepository eventDatabaseRepository;
     private readonly PaymentsDatabaseRepository paymentsDatabaseRepository;
 
-    public ProfileController(UserDatabaseRepository userDatabaseRepository, IHttpContextAccessor httpContextAccessor, 
+    public ProfileController(UserDatabaseRepository userDatabaseRepository, IHttpContextAccessor httpContextAccessor,
       IHostingEnvironment hostingEnvironment, EventDatabaseRepository eventDatabaseRepository, PaymentsDatabaseRepository paymentsDatabaseRepository)
     {
       this.userDatabaseRepository = userDatabaseRepository;
@@ -27,7 +27,7 @@ namespace GreekNorthernBallet.Controllers
       this.eventDatabaseRepository = eventDatabaseRepository;
       this.paymentsDatabaseRepository = paymentsDatabaseRepository;
     }
-    
+
 
     public IActionResult Index()
     {
@@ -50,19 +50,26 @@ namespace GreekNorthernBallet.Controllers
       user.userId = userId;
 
       var password = userDatabaseRepository.getUserById(userId).password;
-      
-      if (PasswordHasher.validatePassword(currentPassword, password))
+      if (user.password.isNotNull()) //giati an den alaxei password xtypaei oti einai null
       {
-        var newPassword = PasswordHasher.hashPassword(user.password);
-        user.password = newPassword;
+        if (PasswordHasher.validatePassword(currentPassword, password))
+        {
+          var newPassword = PasswordHasher.hashPassword(user.password);
+          user.password = newPassword;
+          userDatabaseRepository.editUser(user);
+          return RedirectToAction("Index");
+        }
+        return RedirectToAction("Index", new { message = "Wrong Current Password" });
+      }
+      else
+      {
+        user.password = password;
         userDatabaseRepository.editUser(user);
         return RedirectToAction("Index");
       }
-
-      return RedirectToAction("Index", new { message = "Wrong Current Password"});
     }
 
-      public IActionResult EditPhoto(int id)
+    public IActionResult EditPhoto(int id)
     {
       return View(userDatabaseRepository.getUserById(id));
     }
